@@ -3,6 +3,10 @@ from ui.sidebar import render_sidebar
 from ui.dashboard import display_dashboard
 from ui.welcome import display_welcome_message
 from chat.chat_utils import load_chat_history
+from chat.llm_integration import load_hf_llm
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def initialize_session():
     """Инициализация состояния сессии."""
@@ -11,6 +15,8 @@ def initialize_session():
         st.session_state.chat_history = (
             load_chat_history(username) if username else []
         )
+    if "llm" not in st.session_state:
+        st.session_state.llm = load_hf_llm()
 
 def main():
     """Основная функция приложения."""
